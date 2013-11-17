@@ -18,7 +18,9 @@ void cl_git_mkfile(const char *filename, const char *content)
 	int fd;
 
 	fd = p_creat(filename, 0666);
-	cl_assert(fd != 0);
+	if (fd < 0)
+		perror("boo");
+	cl_assert(fd > 0);
 
 	if (content) {
 		cl_must_pass(p_write(fd, content, strlen(content)));
